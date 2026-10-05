@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Database\Factories\OtpFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Otp extends Model
 {
-    /** @use HasFactory<\Database\Factories\OtpFactory> */
+    /** @use HasFactory<OtpFactory> */
     use HasFactory;
 
     public $timestamps = false;
+
     protected $table = 'otps';
 
     protected $fillable = [
@@ -20,6 +22,13 @@ class Otp extends Model
     ];
 
     protected $hidden = [
-        'otp'
+        'otp',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'expires_at' => 'datetime',
+        ];
+    }
 }
