@@ -13,6 +13,9 @@ class OtpServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * 正しいOTPでも一度だけ認証でき、使用済みOTPでは再認証できないことを検証する。
+     */
     public function test_otp_is_single_use(): void
     {
         $user = User::factory()->create(['login_id' => 'test-user']);

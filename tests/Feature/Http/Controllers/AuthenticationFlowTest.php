@@ -14,6 +14,9 @@ class AuthenticationFlowTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * 誤ったログイン情報ではエラーが表示され、未認証状態が維持されることを検証する。
+     */
     public function test_login_with_invalid_credentials_returns_error(): void
     {
         User::factory()->create([
@@ -33,6 +36,9 @@ class AuthenticationFlowTest extends TestCase
         $this->assertGuest();
     }
 
+    /**
+     * 正しいログイン情報により既存OTPが削除され、要件を満たすOTPがハッシュ保存・メール通知されることを検証する。
+     */
     public function test_valid_login_creates_hashed_otp_deletes_existing_otps_and_sends_email(): void
     {
         Notification::fake();
@@ -75,6 +81,9 @@ class AuthenticationFlowTest extends TestCase
         ));
     }
 
+    /**
+     * OTP認証画面は最初の表示だけ許可され、リロードするとログイン画面へ戻ることを検証する。
+     */
     public function test_otp_page_refresh_redirects_to_login(): void
     {
         $this->withSession([
@@ -89,6 +98,9 @@ class AuthenticationFlowTest extends TestCase
         $this->assertFalse(session()->has('pending_login_id'));
     }
 
+    /**
+     * 有効なOTPでユーザーがログインし、OTPと認証待ちセッションが破棄されてメニューへ遷移することを検証する。
+     */
     public function test_correct_otp_logs_user_in_and_redirects_to_menu(): void
     {
         $user = User::factory()->create(['login_id' => 'test-user']);
@@ -109,6 +121,9 @@ class AuthenticationFlowTest extends TestCase
         $response->assertSessionMissing('pending_login_id');
     }
 
+    /**
+     * 誤ったOTPではエラーが表示され、ログインできず、再表示後のリロードでログイン画面へ戻ることを検証する。
+     */
     public function test_incorrect_otp_returns_error_and_does_not_log_user_in(): void
     {
         $user = User::factory()->create(['login_id' => 'test-user']);
@@ -128,6 +143,9 @@ class AuthenticationFlowTest extends TestCase
         $this->get(route('otp.show'))->assertRedirect(route('login'));
     }
 
+    /**
+     * 有効期限切れのOTPではエラーとなり、ユーザーがログインしないことを検証する。
+     */
     public function test_expired_otp_returns_error_and_does_not_log_user_in(): void
     {
         $user = User::factory()->create(['login_id' => 'test-user']);
@@ -146,6 +164,9 @@ class AuthenticationFlowTest extends TestCase
         $this->assertGuest();
     }
 
+    /**
+     * メニューの認証制御、認証済みユーザーの遷移、およびログアウトによる認証終了を検証する。
+     */
     public function test_menu_requires_authentication_and_logout_ends_session(): void
     {
         $this->get(route('menu'))->assertRedirect(route('login'));
