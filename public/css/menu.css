@@ -31,7 +31,69 @@
 }
 
 .menu-title {
-    margin: 0 0 28px;
+    margin: 0;
+}
+
+.app-list {
+    margin-top: 28px;
+    text-align: left;
+}
+
+.app-list-title {
+    margin: 0 0 16px;
+    font-size: 1.125rem;
+}
+
+.app-links {
+    display: grid;
+    gap: 12px;
+}
+
+.app-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 18px;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    color: #fff;
+    background: var(--app-color);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    gap: 14px;
+    text-decoration: none;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-link:hover {
+    border-color: var(--app-color);
+    color: var(--app-color);
+    background: #fff;
+}
+
+.app-link:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--app-color) 35%, transparent);
+    outline-offset: 3px;
+}
+
+.app-link--kakeibo {
+    --app-color: #009d2c;
+}
+
+.app-link--cooking {
+    --app-color: #f59e0b;
+}
+
+.app-link-icon {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    object-fit: contain;
+}
+
+.logout-form {
+    margin-top: 28px;
 }
 
 .logout-button {
@@ -44,4 +106,23 @@
     cursor: pointer;
     font: inherit;
     font-weight: 600;
+}
+
+.logout-button:hover {
+    background: #f8fafc;
+}
+
+.logout-button:focus-visible {
+    outline: 3px solid rgb(51 65 85 / 25%);
+    outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+    .menu-main {
+        padding: 16px;
+    }
+
+    .menu-card {
+        padding: 32px 24px;
+    }
 }

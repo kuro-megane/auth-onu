@@ -11,7 +11,20 @@ class MenuController extends Controller
 {
     public function show(): View
     {
-        return view('menu');
+        $configuredApps = config('family_apps', []);
+        $familyApps = [];
+
+        if (is_array($configuredApps)) {
+            foreach ($configuredApps as $app) {
+                if (! is_array($app) || ! is_string($app['url'] ?? null) || trim($app['url']) === '') {
+                    continue;
+                }
+
+                $familyApps[] = $app;
+            }
+        }
+
+        return view('menu', ['familyApps' => $familyApps]);
     }
 
     public function logout(Request $request): RedirectResponse
