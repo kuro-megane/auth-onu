@@ -11,10 +11,18 @@ class MenuController extends Controller
 {
     public function show(): View
     {
-        $familyApps = collect(config('family_apps', []))
-            ->filter(fn (array $app): bool => is_string($app['url']) && trim($app['url']) !== '')
-            ->values()
-            ->all();
+        $configuredApps = config('family_apps', []);
+        $familyApps = [];
+
+        if (is_array($configuredApps)) {
+            foreach ($configuredApps as $app) {
+                if (! is_array($app) || ! is_string($app['url'] ?? null) || trim($app['url']) === '') {
+                    continue;
+                }
+
+                $familyApps[] = $app;
+            }
+        }
 
         return view('menu', ['familyApps' => $familyApps]);
     }
