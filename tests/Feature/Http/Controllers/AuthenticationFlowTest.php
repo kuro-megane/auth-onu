@@ -177,4 +177,60 @@ class AuthenticationFlowTest extends TestCase
         $this->actingAs($user)->post(route('logout'))->assertRedirect(route('login'));
         $this->assertGuest();
     }
+
+    /**
+     * URLが設定されたONU Familyアプリがメニューに表示されることを検証する。
+     */
+    public function test_menu_displays_configured_family_apps(): void
+    {
+        config()->set('family_apps.kakeibo.url', 'https://kakeibo.example.com');
+        config()->set('family_apps.cooking.url', 'https://cooking.example.com');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('menu'));
+
+        $response->assertOk()
+            ->assertSeeText('アプリ一覧')
+            ->assertSeeTextInOrder(['家計簿', '作り置き', 'ログアウト'])
+            ->assertSee('href="https://kakeibo.example.com"', false)
+            ->assertSee('href="https://cooking.example.com"', false)
+            ->assertSee('images/apps/kakeibo.svg', false)
+            ->assertSee('images/apps/cooking.svg', false);
+    }
+
+    /**
+     * URLが未設定のアプリのみメニューから除外されることを検証する。
+     */
+    public function test_menu_hides_only_family_app_without_url(): void
+    {
+        config()->set('family_apps.kakeibo.url', 'https://kakeibo.example.com');
+        config()->set('family_apps.cooking.url', null);
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('menu'));
+
+        $response->assertOk()
+            ->assertSeeText('アプリ一覧')
+            ->assertSeeText('家計簿')
+            ->assertDontSeeText('作り置き')
+            ->assertSee('href="https://kakeibo.example.com"', false);
+    }
+
+    /**
+     * URLが未設定のONU Familyアプリとアプリ一覧見出しが表示されないことを検証する。
+     */
+    public function test_menu_hides_family_apps_when_urls_are_not_configured(): void
+    {
+        config()->set('family_apps.kakeibo.url', null);
+        config()->set('family_apps.cooking.url', '   ');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('menu'));
+
+        $response->assertOk()
+            ->assertDontSeeText('アプリ一覧')
+            ->assertDontSeeText('家計簿')
+            ->assertDontSeeText('作り置き')
+            ->assertSeeText('ログアウト');
+    }
 }

@@ -10,7 +10,22 @@
     <main class="menu-main">
         <section class="menu-card" aria-labelledby="menu-title">
             <h1 id="menu-title" class="menu-title">メニュー</h1>
-            <form method="POST" action="{{ route('logout') }}">
+
+            @if ($familyApps !== [])
+                <section class="app-list" aria-labelledby="app-list-title">
+                    <h2 id="app-list-title" class="app-list-title">アプリ一覧</h2>
+                    <div class="app-links">
+                        @foreach ($familyApps as $app)
+                            <a class="app-link app-link--{{ $app['theme'] }}" href="{{ $app['url'] }}">
+                                <img class="app-link-icon" src="{{ asset($app['icon']) }}" alt="">
+                                <span>{{ $app['label'] }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
+            <form class="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button class="logout-button" type="submit">ログアウト</button>
             </form>
