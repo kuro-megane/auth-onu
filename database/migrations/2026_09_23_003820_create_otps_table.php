@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('otps', function (Blueprint $table) {
-            $table->id();
-            $table->string('login_id')->comment('ログインID');
-            $table->string('otp')->comment('ワンタイムパスワード');
-            $table->datetime('expires_at')->comment('有効期限');
-        });
+        if (! Schema::hasTable('otps')) {
+            Schema::create('otps', function (Blueprint $table) {
+                $table->id();
+                $table->string('login_id')->comment('ログインID');
+                $table->string('otp')->comment('ワンタイムパスワード');
+                $table->datetime('expires_at')->comment('有効期限');
+            });
+        }
     }
 
     /**
