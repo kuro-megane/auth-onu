@@ -42,7 +42,11 @@
                 </label>
 
                 <button class="login-button" type="submit">ログイン</button>
-                <a class="login-forgot-button" href="">パスワードを忘れた方</a>
+                @if (session('status'))
+                    <p class="login-status" role="status">{{ session('status') }}</p>
+                @endif
+
+                <a class="login-forgot-button" href="{{ route('password.request') }}">パスワードを忘れた場合</a>
             </form>
         </section>
     </main>
