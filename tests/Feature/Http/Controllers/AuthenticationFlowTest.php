@@ -191,7 +191,8 @@ class AuthenticationFlowTest extends TestCase
 
         $response->assertOk()
             ->assertSeeText('アプリ一覧')
-            ->assertSeeTextInOrder(['家計簿', '作り置き', 'ログアウト'])
+            ->assertSeeTextInOrder(['家計簿', '作り置き', 'アカウント', 'アカウント編集', 'ログアウト'])
+            ->assertSee('href="'.route('account.edit').'"', false)
             ->assertSee('href="https://kakeibo.example.com"', false)
             ->assertSee('href="https://cooking.example.com"', false)
             ->assertSee('images/apps/kakeibo.svg', false)
@@ -231,6 +232,7 @@ class AuthenticationFlowTest extends TestCase
             ->assertDontSeeText('アプリ一覧')
             ->assertDontSeeText('家計簿')
             ->assertDontSeeText('作り置き')
+            ->assertSeeTextInOrder(['アカウント', 'アカウント編集', 'ログアウト'])
             ->assertSeeText('ログアウト');
     }
 }

@@ -13,6 +13,43 @@
     font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 }
 
+.toast {
+    position: fixed;
+    z-index: 1;
+    top: 24px;
+    right: 24px;
+    max-width: calc(100% - 48px);
+    padding: 14px 20px;
+    border: 1px solid #86efac;
+    border-radius: 12px;
+    color: #166534;
+    background: #f0fdf4;
+    box-shadow: 0 12px 32px rgb(22 101 52 / 18%);
+    font-weight: 600;
+    animation: toast-dismiss 5s forwards;
+}
+
+@keyframes toast-dismiss {
+    0%,
+    80% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .toast {
+        animation: none;
+    }
+}
+
 .menu-main {
     display: grid;
     min-height: 100vh;
@@ -92,6 +129,39 @@
     object-fit: contain;
 }
 
+.account-list {
+    margin-top: 28px;
+    text-align: left;
+}
+
+.account-list-title {
+    margin: 0 0 16px;
+    font-size: 1.125rem;
+}
+
+.account-link {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    color: #111827;
+    background: #e5e7eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.account-link:hover {
+    background: #d1d5db;
+}
+
+.account-link:focus-visible {
+    outline: 3px solid rgb(17 24 39 / 25%);
+    outline-offset: 3px;
+}
+
 .logout-form {
     margin-top: 28px;
 }
@@ -118,6 +188,12 @@
 }
 
 @media (max-width: 520px) {
+    .toast {
+        top: 16px;
+        right: 16px;
+        max-width: calc(100% - 32px);
+    }
+
     .menu-main {
         padding: 16px;
     }

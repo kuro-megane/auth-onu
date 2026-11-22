@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
 </head>
 <body class="menu-page">
+    @if (session('status'))
+        <div class="toast" role="status" aria-live="polite">{{ session('status') }}</div>
+    @endif
+
     <main class="menu-main">
         <section class="menu-card" aria-labelledby="menu-title">
             <h1 id="menu-title" class="menu-title">メニュー</h1>
@@ -24,6 +28,11 @@
                     </div>
                 </section>
             @endif
+
+            <section class="account-list" aria-labelledby="account-list-title">
+                <h2 id="account-list-title" class="account-list-title">アカウント</h2>
+                <a class="account-link" href="{{ route('account.edit') }}">アカウント編集</a>
+            </section>
 
             <form class="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
