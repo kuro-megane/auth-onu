@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/menu', [MenuController::class, 'show'])->name('menu');
     Route::get('/account/edit', [AccountController::class, 'edit'])->name('account.edit');
     Route::patch('/account', [AccountController::class, 'update'])->name('account.update');
+    Route::get('/account/password/edit', [PasswordChangeController::class, 'edit'])
+        ->name('password.change.edit');
+    Route::patch('/account/password', [PasswordChangeController::class, 'update'])
+        ->name('password.change.update');
     Route::post('/logout', [MenuController::class, 'logout'])->name('logout');
 });

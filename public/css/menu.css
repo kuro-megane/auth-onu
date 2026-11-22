@@ -139,6 +139,11 @@
     font-size: 1.125rem;
 }
 
+.account-links {
+    display: grid;
+    gap: 12px;
+}
+
 .account-link {
     display: flex;
     width: 100%;

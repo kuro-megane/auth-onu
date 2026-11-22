@@ -31,7 +31,10 @@
 
             <section class="account-list" aria-labelledby="account-list-title">
                 <h2 id="account-list-title" class="account-list-title">アカウント</h2>
-                <a class="account-link" href="{{ route('account.edit') }}">アカウント編集</a>
+                <div class="account-links">
+                    <a class="account-link" href="{{ route('account.edit') }}">アカウント編集</a>
+                    <a class="account-link" href="{{ route('password.change.edit') }}">パスワード変更</a>
+                </div>
             </section>
 
             <form class="logout-form" method="POST" action="{{ route('logout') }}">
