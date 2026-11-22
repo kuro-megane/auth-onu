@@ -114,7 +114,11 @@ class AccountControllerTest extends TestCase
             ]);
 
         $response->assertRedirect(route('account.edit'))
-            ->assertSessionHasErrors(['name', 'email', 'login_id']);
+            ->assertSessionHasErrors([
+                'name' => '名前は必須です。',
+                'email' => 'メールアドレスはすでに使用されています。',
+                'login_id' => 'ログインIDはすでに使用されています。',
+            ]);
         $this->assertDatabaseMissing('users', [
             'id' => $user->id,
             'email' => $otherUser->email,
