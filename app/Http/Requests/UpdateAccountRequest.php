@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -33,6 +35,32 @@ class UpdateAccountRequest extends FormRequest
                 'max:255',
                 Rule::unique('users')->ignore($this->user()),
             ],
+        ];
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    public function authenticatedUser(): User
+    {
+        $user = $this->user();
+
+        if (! $user instanceof User) {
+            throw new AuthenticationException;
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return array{name: string, email: string, login_id: string}
+     */
+    public function accountAttributes(): array
+    {
+        return [
+            'name' => $this->string('name')->toString(),
+            'email' => $this->string('email')->toString(),
+            'login_id' => $this->string('login_id')->toString(),
         ];
     }
 

@@ -17,7 +17,7 @@ class AccountController extends Controller
 
     public function update(UpdateAccountRequest $request, AccountService $accountService): RedirectResponse
     {
-        $accountService->update($request->user(), $request->validated());
+        $accountService->update($request->authenticatedUser(), $request->accountAttributes());
 
         return to_route('menu')->with('status', 'アカウント情報を更新しました。');
     }
